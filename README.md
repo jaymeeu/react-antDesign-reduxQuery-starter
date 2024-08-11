@@ -1,6 +1,6 @@
 ## Stater project
 
-*ReactJS*
-*Taiwindcss*
-*Ant design*
-*Redux query*
+### ReactJS
+### Taiwindcss
+### Ant design
+### Redux query
