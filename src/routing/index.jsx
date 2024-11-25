@@ -2,23 +2,26 @@ import React, { Suspense, lazy } from 'react'
 import { ProtectedRoutes } from './ProtectedRoutes'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Loading from '@/components/Loading'
-import ToggleBtn from '@/components/ToggleBtn'
-import { useTheme } from '@/contexts/ThemeContext'
 import { ConfigProvider } from 'antd'
 import SnackProvider from '@/contexts/SnackContext'
 import Home from '@/pages/Home'
 
 
 export const Routing = () => {
-    const { isModeDark } = useTheme()
+    const isModeDark = false
 
-    const LazyLoad = ({children}) => (
+    const LazyLoad = ({ children }) => (
         <Suspense fallback={(<Loading />)}>
-           {children}
+            {children}
         </Suspense>
     )
 
     const Check = lazy(() => import('@/pages/Check'))
+
+    const routes = [
+        // customer routes
+        { path: "/overview", element: <Check />, isProtected: true, },
+    ]
 
     return (
         <ConfigProvider
@@ -48,20 +51,28 @@ export const Routing = () => {
                     <BrowserRouter>
                         <Routes>
                             <Route path="/" element={<ProtectedRoutes />} >
-                                <Route path="" element={<Home/>} />
-                                <Route path="/check" element={<LazyLoad><Check /></LazyLoad>} />
+                                {
+                                    routes.map(({ path, element, isProtected }, i) => {
+                                        // Logic to handle the route rendering
+                                        if (isProtected) {
+                                            return (
+                                                <Route
+                                                    key={i}
+                                                    path={path}
+                                                    element={
+                                                        <LazyLoad>{element}</LazyLoad>
+                                                    }
+                                                />
+                                            );
+                                        }
+                                    }
+                                    )
+                                }
                             </Route>
 
-                            <Route path="/home" element={<Home/>} />
-                            {/* <Route path='/signup' element={<SignUp />} />
-                            <Route path='/email-confirmation' element={<Confirmation />} />
-                            <Route path='/forget-password' element={<ForgetPassword />} />
-                            <Route path='/set-password/:email' element={<SetPassword />} />
-                            <Route path='/user-set-password' element={<UserSetPassword />} /> */}
+                            <Route path="/login" element={<Home />} />
                             <Route path="*" element={<>404</>} />
                         </Routes>
-
-                        <ToggleBtn />
 
                     </BrowserRouter>
                 </div>

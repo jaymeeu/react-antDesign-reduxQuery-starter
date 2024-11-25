@@ -1,11 +1,21 @@
+import { useAuth } from '@/contexts/AuthContext';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
 const RightMenu = ({ mode }) => {
+  const  {login} = useAuth()
 
   return (
     <div className='flex h-auto md:h-[32px] flex-col md:flex-row gap-6 md:gap-0 items-start md:items-center justify-start md:justify-center rounded-full bg-transparent md:bg-[var(--main)] p-5 pt-0 md:p-2  text-sm' >
       <Link to='/login' className='text-white px-4 rounded-full  hidden md:block' >Login</Link>
+      <div className='text-white' onClick={()=>login({
+        user : {
+          firstname : "firstname",
+          lastname : "lastname",
+          email : "email"
+        },
+        token : "token"
+      })}>Login check</div>
       <Link to='/#signup' className='bg-white px-6 rounded-full text-[var(--main)] hidden md:block'>Register</Link>
    
       <Link to='/login'  className='font-medium text-sm block md:hidden mt-6'>Login</Link>

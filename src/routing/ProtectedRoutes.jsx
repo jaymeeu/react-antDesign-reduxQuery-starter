@@ -7,12 +7,8 @@ export const ProtectedRoutes = () => {
   const { user } = useAuth();
 
   const location = useLocation();
-//   const { authLogin } = useContext(globalC);
-// const authLogin = true
-
   // if (!user) {
-  //   return null; // or loading indicator/spinner/etc
+  //   return null;
   // }
-
-  return user ? <PageLayout><Outlet/></PageLayout>  : <Navigate to="/home" replace state={{ from: location }} />;
+  return user ? <PageLayout><Outlet/></PageLayout>  : <Navigate to="/login" replace state={{ from: location }} />;
 }

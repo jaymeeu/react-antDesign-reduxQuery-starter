@@ -7,23 +7,13 @@ export const apiSlice = createApi({
     baseUrl: import.meta.env.VITE_APP_API,
     credentials: "same-origin",
     prepareHeaders: (headers, { getState }) => {
-
       // since getLocalStorage returns a promise...
-
       getLocalStorage('iToken_').then((res) => {
         if (res) {
           headers.set('Authorization', `Bearer ${res}`)
         }
         return headers
       })
-
-      getLocalStorage('iCompany_').then((result) => {
-        if (result) {
-          headers.set('x-company-id', result)
-        }
-        return headers
-      })
-
     },
   }),
   endpoints: (builder) => ({
